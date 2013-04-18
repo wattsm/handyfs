@@ -175,40 +175,44 @@ module DB
         (connectUsingName connectionName, true)
 
     ///Executes a given command as a scalar. For use with the command monad.
-    let execScalar _ (cmd : DbCommand) = 
-        cmd.ExecuteScalar ()
-
-    ///Executes a scalar and converts the value. For use with the command monad.
-    let execScalarOf convert (cmd : DbCommand) = 
-
-        let raw = 
+    let execScalar () = 
+        fun (cmd : DbCommand) ->
             cmd.ExecuteScalar ()
 
-        let value = 
-            if (raw = (box DBNull.Value)) then
-                None
-            else
-                Some raw
+    ///Executes a scalar and converts the value. For use with the command monad.
+    let execScalarOf convert =
+        fun (cmd : DbCommand) ->
 
-        convert value
+            let raw = 
+                cmd.ExecuteScalar ()
+
+            let value = 
+                if (raw = (box DBNull.Value)) then
+                    None
+                else
+                    Some raw
+
+            convert value
 
     ///Executes a given command as a non-query. For use with the command monad.
-    let execNonQuery _ (cmd : DbCommand) = 
-        cmd.ExecuteNonQuery ()
+    let execNonQuery () =
+        fun (cmd : DbCommand) ->
+            cmd.ExecuteNonQuery ()
 
     ///Execute s given command as a reader, parsing each row using the given function.
-    let execRead getItem (cmd : DbCommand) = 
+    let execRead getItem =
+        fun (cmd : DbCommand) ->
         
-        use reader = 
-            cmd.ExecuteReader ()
+            use reader = 
+                cmd.ExecuteReader ()
 
-        let data =
-            seq {
-                while reader.Read () do
-                    yield getItem reader
-            }
+            let data =
+                seq {
+                    while reader.Read () do
+                        yield getItem reader
+                }
 
-        List.ofSeq data
+            List.ofSeq data //Forces evaluation of sequence
 
     (** Monad usage
 
