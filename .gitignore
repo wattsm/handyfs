@@ -36,4 +36,5 @@ _Publish/
 App_Data/
 build/
 !tools/xunit/*.exe
+!NuGet.exe
 packages
