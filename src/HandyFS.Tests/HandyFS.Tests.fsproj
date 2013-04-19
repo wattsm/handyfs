@@ -43,6 +43,7 @@
     <Compile Include="string-facts.fs" />
     <Compile Include="collections-facts.fs" />
     <Compile Include="datetime-facts.fs" />
+    <Compile Include="null-facts.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsUnit.CustomMatchers">
