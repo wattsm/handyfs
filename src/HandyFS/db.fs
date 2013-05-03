@@ -90,28 +90,44 @@ module DB
     ///Connects to a database using the given factory
     let connectUsingFactory connectionString = 
         createConnection
-        >> openConnection connectionString
+        >> openConnection connectionString  
 
     ///Connects to a database using the given connection string
-    let connect providerName connectionString = 
+    let connectUsingSettings providerName connectionString = 
         providerName
         |> getFactory
         |> connectUsingFactory connectionString
 
     ///Gets the settings for a given connection name
-    let getSettings (connectionName : string) =
+    let getConnectSettings (connectionName : string) =
         match ConfigurationManager.ConnectionStrings.[connectionName] with
         | null -> None
         | settings -> Some (settings.ProviderName, settings.ConnectionString)
 
     ///Connects to a database using a named connection string
     let connectUsingName (connectionName : string) = 
-        match (getSettings connectionName) with
+        match (getConnectSettings connectionName) with
         | None -> invalidArg "connectionName" "No connection string with the given name could be found"
         | Some (providerName, connectionString) ->
-            connect
+            connectUsingSettings
             <| providerName
             <| connectionString    
+
+    ///Describes ways of connecting to a database
+    type ConnectionMethod = 
+        | ByName of String
+        | BySettings of String * String
+
+    ///Connects to a database using the given method
+    let connect connectionMethod = 
+        match connectionMethod with
+        | ByName name -> 
+            connectUsingName name
+
+        | BySettings (providerName, connectionString) -> 
+            connectUsingSettings
+            <| providerName
+            <| connectionString
 
     ///Describes types of DB command
     type CommandSettings = 
