@@ -1,5 +1,5 @@
 ﻿///Contains functions for working with null values
-module Null
+module HandyFS.Null
 
     open System
 

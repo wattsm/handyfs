@@ -3,7 +3,7 @@
     open System
     open FsUnit.Xunit
     open Xunit
-    open Null
+    open HandyFS.Null
 
     type ``asOption function`` () =
 

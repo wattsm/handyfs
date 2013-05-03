@@ -1,5 +1,5 @@
 ﻿///Contains functions for working with databases
-module DB
+module HandyFS.DB
 
     open System
     open System.Data
