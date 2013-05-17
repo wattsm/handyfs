@@ -74,10 +74,11 @@ module HandyFS.DB
         |> setDirection direction
 
     ///Adds a parameter to a command
-    let addParameter param (cmd : DbCommand) =
-        createParameter param cmd
-        |> cmd.Parameters.Add
-        |> ignore
+    let addParameter param  =
+        fun (cmd : DbCommand) ->
+            createParameter param cmd
+            |> cmd.Parameters.Add
+            |> ignore
 
     ///Opens a connection to a given database
     let openConnection connectionString (connection : DbConnection) = 
@@ -134,8 +135,8 @@ module HandyFS.DB
         | Procedure of String
         | Sql of String
 
-    ///Monad wrapping a DB connection and command
-    type CommandMonad (connection : DbConnection, disposable, settings) = 
+    ///Computational workflow wrapping a DB connection and command
+    type CommandWorkflow (connection : DbConnection, disposable, settings) = 
 
         let command = 
 
@@ -174,28 +175,28 @@ module HandyFS.DB
                 dispose ()
                 GC.SuppressFinalize (this)
 
-    ///Creates a commad monad for a stored procedure
+    ///Creates a command workflow for a stored procedure
     let call procName (connection, disposable) = 
-        new CommandMonad (connection, disposable, (Procedure procName))
+        new CommandWorkflow (connection, disposable, (Procedure procName))
 
-    ///Creates a command monad for a SQL query
+    ///Creates a command workflow for a SQL query
     let query sql (connection, disposable) = 
-        new CommandMonad (connection, disposable, (Sql sql))
+        new CommandWorkflow (connection, disposable, (Sql sql))
 
-    ///Syntactic sugar function for use with the command monad
+    ///Syntactic sugar function for use with the command workflow
     let usingConnection connection = 
         (connection, false)
 
-    ///Syntactic sugar function for use with the command monad
+    ///Syntactic sugar function for use with the command workflow
     let usingNamedConnection connectionName = 
         (connectUsingName connectionName, true)
 
-    ///Executes a given command as a scalar. For use with the command monad.
+    ///Executes a given command as a scalar. For use with the command workflow.
     let execScalar () = 
         fun (cmd : DbCommand) ->
             cmd.ExecuteScalar ()
 
-    ///Executes a scalar and converts the value. For use with the command monad.
+    ///Executes a scalar and converts the value. For use with the command workflow.
     let execScalarOf convert =
         fun (cmd : DbCommand) ->
 
@@ -210,7 +211,7 @@ module HandyFS.DB
 
             convert value
 
-    ///Executes a given command as a non-query. For use with the command monad.
+    ///Executes a given command as a non-query. For use with the command workflow.
     let execNonQuery () =
         fun (cmd : DbCommand) ->
             cmd.ExecuteNonQuery ()
@@ -229,43 +230,3 @@ module HandyFS.DB
                 }
 
             List.ofSeq data //Forces evaluation of sequence
-
-    (** Monad usage
-
-    let rows = 
-        query "SELECT id, key, value FROM some_table WHERE id > @id" (usingNamedConnection "Default") {
-            
-            do! addParameter (Input ("id", 10))
-
-            return! execRead (fun reader ->
-
-                let id = reader.GetInt32 (0)
-                let key = reader.GetString (1)
-                let value = reader.GetString (2)
-
-                (id, key, value)
-            )
-        }
-
-    let data = 
-        call "Some_pkg.DoSomething" (usingNamedConnection "Default") {
-            return! execRead (fun reader ->
-                reader.GetValue (0)
-            )
-        }
-
-            
-    let result = 
-        call "some_pkg.DoSomething" (usingNamedConnection "Default") {
-
-            do! addParameter (Input ("in_Value", 30))
-            do! addParameter (Output "out_Result")
-
-            return! execScalarOf (fun value ->
-                match value with
-                | None -> 0L
-                | Some v -> Convert.ToInt64 v
-            ) 
-        }
-
-    **)
