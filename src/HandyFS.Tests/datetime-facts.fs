@@ -22,7 +22,7 @@
 
     module ``Date Module`` = 
 
-        type ``GetDaysInMonth month`` () = 
+        type ``WeekdaysInMonth month`` () = 
 
             [<Fact>] member test.
                 ``Returns the correct list of dates`` () =  
@@ -31,7 +31,7 @@
                             [ 1; 8; 15; 22; 29; ]
                             |> List.map (fun day -> DateTime (2013, 4, day))
                     in
-                        Date.getDaysInMonth 2013 4 DayOfWeek.Monday
+                        Date.weekdaysInMonth 2013 4 DayOfWeek.Monday
                         |> should equal expected
 
     module ``DateTime Extensions`` = 
