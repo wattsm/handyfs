@@ -86,6 +86,27 @@ module DateTime
         let getDaysInCurrentMonth dayOfWeek = 
             getDaysInMonth DateTime.Now.Year DateTime.Now.Month dayOfWeek
 
+        ///Gets the start of the given month
+        let getStartOfMonth month year = 
+            DateTime (year, month, 1)
+
+        ///Gets the end of the given month
+        let getEndOfMonth month year = 
+            let day = DateTime.DaysInMonth (year, month)
+            in DateTime (year, month, day)
+
+        ///Gets the start of the month for the given date
+        let startOfMonth (datetime : DateTime) = 
+            DateTime (datetime.Year, datetime.Month, 1, datetime.Hour, datetime.Minute, datetime.Second)
+
+        ///Gets the end of the month for the given date
+        let endOfMonth (datetime : DateTime) = 
+            
+            let day = 
+                DateTime.DaysInMonth (datetime.Year, datetime.Month)
+
+            DateTime (datetime.Year, datetime.Month, day, datetime.Hour, datetime.Minute, datetime.Second)
+
     ///Extension methods for the the DateTime type
     type DateTime with
 
@@ -113,3 +134,13 @@ module DateTime
         member this.StartOfWeek () =
             this
             |> Date.startOfWeek
+
+        //Sets the date to the beginning of the month
+        member this.StartOfMonth () = 
+            this
+            |> Date.startOfMonth
+
+        //Sets the date to the end of the month
+        member this.EndOfMonth () = 
+            this
+            |> Date.endOfMonth

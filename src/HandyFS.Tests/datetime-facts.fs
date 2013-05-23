@@ -69,4 +69,16 @@
                 ``Returns the correct date then when date is not a Monday`` () =
                     datetime.StartOfWeek () |> should equal monday
 
+        type ``StartOfMonth method`` () =
+
+            [<Fact>] member test.
+                ``Returns the first of the month at the same time`` () =
+                    datetime.StartOfMonth () |> should equal (DateTime (2013, 4, 1, 13, 50, 0))
+
+        type ``EndOfMonth method`` () =
+
+            [<Fact>] member test.
+                ``Returns the last day of the month at the same time`` () =
+                    datetime.EndOfMonth () |> should equal (DateTime (2013, 4, 30, 13, 50, 0))
+
     
