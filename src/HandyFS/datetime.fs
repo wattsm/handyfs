@@ -79,7 +79,7 @@ module DateTime
 
             DateTime (year, month, 1)
             |> addDays -1 //End of previous month
-            |> next dayOfWeek
+            |> exclusiveNext dayOfWeek
             |> checkAndProgress
             
         ///Gets the dates of all given days of the week in the current month
