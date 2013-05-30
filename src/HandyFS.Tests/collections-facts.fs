@@ -91,3 +91,26 @@
             [<Fact>] member test.
                 ``Returns an empty list if the collection contains no items`` () =
                     ArrayList () |> Enumerable.toList<int> |> List.isEmpty |> should be True
+
+    module ``NameValueCollection module`` = 
+
+        open System.Collections.Specialized
+
+        type ``toList function`` () =
+
+            let collection = 
+
+                let data = NameValueCollection ()
+                data.["Key.1"] <- "Value.1"
+                data.["Key.2"] <- "Value.2"
+                data.["Key.3"] <- "Value.3"
+
+                data
+
+            [<Fact>] member test.
+                ``Returns a list of the collection items as key value pairs`` () =
+                    collection |> NameValueCollection.toList |> should equal [ ("Key.1","Value.1"); ("Key.2","Value.2"); ("Key.3","Value.3"); ]
+
+            [<Fact>] member rest.
+                ``Returns an empty list if the collection contains no items`` () =
+                    NameValueCollection () |> NameValueCollection.toList |> List.isEmpty |> should be True

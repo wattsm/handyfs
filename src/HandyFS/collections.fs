@@ -2,6 +2,7 @@
 [<AutoOpen>]
 module Collections
 
+    open System
     open System.Collections
     open System.Collections.Specialized
 
@@ -70,3 +71,13 @@ module Collections
         ///Converts an IEnumerable to a list
         let toList<'a> = 
             toSeq<'a> >> Seq.toList
+
+    ///Functions for working with NameValueCollections
+    [<RequireQualifiedAccess>]
+    module NameValueCollection =
+
+        ///Converts a NameValueCollection to a list of key/value tuples
+        let toList (nvc : NameValueCollection) = 
+            nvc.AllKeys
+            |> Array.toList
+            |> List.map (fun key -> (key, nvc.[key]))
