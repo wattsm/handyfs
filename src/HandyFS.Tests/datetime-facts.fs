@@ -10,7 +10,7 @@
 
         module ``At method`` =
 
-            let [<Fact>]  ``Returns the given time of the date`` () =
+            let [<Fact>] ``Returns the given time of the date`` () =
                 datetime.At 9 30 15 |> should equal (DateTime (2013, 4, 17, 9, 30, 15))
 
         module ``Midnight method`` =
@@ -20,7 +20,7 @@
 
     module ``Date Module`` = 
 
-        module ``GetDaysInMonth month`` = 
+        module ``WeekdaysInMonth month`` = 
 
             let [<Fact>] ``Returns the correct list of dates`` () =  
                 let 
@@ -28,7 +28,7 @@
                         [ 1; 8; 15; 22; 29; ]
                         |> List.map (fun day -> DateTime (2013, 4, day))
                 in
-                    Date.getDaysInMonth 2013 4 DayOfWeek.Monday
+                    Date.weekdaysInMonth 2013 4 DayOfWeek.Monday
                     |> should equal expected
 
     module ``DateTime Extensions`` = 
@@ -46,7 +46,7 @@
             let [<Fact>] ``Returns the correct date when the previous occurrence of the requested day is in the current week`` () =
                 datetime.Previous (DayOfWeek.Tuesday) |> should equal (DateTime (2013, 4, 16, 13, 50, 0))
 
-            let [<Fact>]  ``Returns the correct date when the previous occurrence of the requested day is in the previous week`` () =
+            let [<Fact>] ``Returns the correct date when the previous occurrence of the requested day is in the previous week`` () =
                 datetime.Previous (DayOfWeek.Friday) |> should equal (DateTime (2013, 4, 12, 13, 50, 0))
 
         module ``StartOfWeek method`` =
@@ -57,7 +57,17 @@
             let [<Fact>] ``Returns the correct date when the date is a Monday`` () =
                 monday.StartOfWeek () |> should equal monday
 
-            let [<Fact>]  ``Returns the correct date then when date is not a Monday`` () =
+            let [<Fact>] ``Returns the correct date then when date is not a Monday`` () =
                 datetime.StartOfWeek () |> should equal monday
+
+        module ``StartOfMonth method`` =
+
+            let [<Fact>] ``Returns the first of the month at the same time`` () =
+                datetime.StartOfMonth () |> should equal (DateTime (2013, 4, 1, 13, 50, 0))
+
+        module ``EndOfMonth method`` =
+
+            let [<Fact>] ``Returns the last day of the month at the same time`` () =
+                datetime.EndOfMonth () |> should equal (DateTime (2013, 4, 30, 13, 50, 0))
 
     

@@ -69,7 +69,7 @@ module DateTime
                 |> previous DayOfWeek.Monday        
 
         ///Gets the dates of all given days of the week in a month
-        let getDaysInMonth year month dayOfWeek = 
+        let weekdaysInMonth year month dayOfWeek = 
 
             let rec checkAndProgress (date : DateTime) = 
                 if (date.Month <> month) then
@@ -79,12 +79,30 @@ module DateTime
 
             DateTime (year, month, 1)
             |> addDays -1 //End of previous month
-            |> next dayOfWeek
+            |> exclusiveNext dayOfWeek
             |> checkAndProgress
             
         ///Gets the dates of all given days of the week in the current month
-        let getDaysInCurrentMonth dayOfWeek = 
-            getDaysInMonth DateTime.Now.Year DateTime.Now.Month dayOfWeek
+        let weekdaysInCurrentMonth dayOfWeek = 
+            weekdaysInMonth DateTime.Now.Year DateTime.Now.Month dayOfWeek
+
+        ///Gets the start of the given month
+        let startOfMonth month year = 
+            DateTime (year, month, 1)
+
+        ///Gets the end of the given month
+        let endOfMonth month year = 
+            let day = DateTime.DaysInMonth (year, month)
+            in DateTime (year, month, day)
+
+        ///Gets the start of the month for the given date
+        let startOfMonthFor (datetime : DateTime) = 
+            DateTime (datetime.Year, datetime.Month, 1, datetime.Hour, datetime.Minute, datetime.Second)
+
+        ///Gets the end of the month for the given date
+        let endOfMonthFor (datetime : DateTime) =             
+            let day = DateTime.DaysInMonth (datetime.Year, datetime.Month)
+            in DateTime (datetime.Year, datetime.Month, day, datetime.Hour, datetime.Minute, datetime.Second)
 
     ///Extension methods for the the DateTime type
     type DateTime with
@@ -113,3 +131,13 @@ module DateTime
         member this.StartOfWeek () =
             this
             |> Date.startOfWeek
+
+        //Sets the date to the beginning of the month
+        member this.StartOfMonth () = 
+            this
+            |> Date.startOfMonthFor
+
+        //Sets the date to the end of the month
+        member this.EndOfMonth () = 
+            this
+            |> Date.endOfMonthFor
