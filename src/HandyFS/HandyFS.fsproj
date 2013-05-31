@@ -48,6 +48,7 @@
     <Compile Include="datetime.fs" />
     <Compile Include="db.fs" />
     <Compile Include="null.fs" />
+    <Compile Include="maybe.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
