@@ -1,4 +1,40 @@
-﻿module HandyFS.Maybe
+﻿(**
+    Maybe monad
+
+    Used to chain functions together where each function returns either Some x or None. When Some x
+    is returned the next function along is called with x as an argument. When None is returned the next function
+    along is not called, and None is returned.
+
+    Example:
+
+        let connect : unit -> Connection option
+        let getCommand : String -> Connection -> Command option
+        let execute : Command -> Result option
+
+        Using workflow:
+
+            // String -> Result option
+            let execSql sql = 
+                maybe {
+
+                    let! connection = connect ()
+                    let! command = getCommand sql connection 
+
+                    return (execute command)
+                }
+
+        Using monad functions:
+
+            // String -> Result option
+            let execSql sql = 
+                return ()
+                --> connect
+                --> getCommand sql
+                --> (execute >> return')
+
+**)
+
+module HandyFS.Maybe
 
     module Monad = 
 
