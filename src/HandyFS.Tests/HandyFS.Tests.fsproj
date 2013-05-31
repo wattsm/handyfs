@@ -46,6 +46,7 @@
     <Compile Include="datetime-facts.fs" />
     <Compile Include="null-facts.fs" />
     <Compile Include="maybe-facts.fs" />
+    <Compile Include="state-facts.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsUnit.CustomMatchers">
