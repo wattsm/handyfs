@@ -8,11 +8,13 @@
 
     module ``Time Module`` =
 
+        [<Trait (TraitNames.Module, ModuleNames.DateTime)>]
         module ``At method`` =
 
             let [<Fact>] ``Returns the given time of the date`` () =
                 datetime.At 9 30 15 |> should equal (DateTime (2013, 4, 17, 9, 30, 15))
 
+        [<Trait (TraitNames.Module, ModuleNames.DateTime)>]
         module ``Midnight method`` =
 
             let [<Fact>] ``Returns midnight of the current date`` () =
@@ -20,6 +22,7 @@
 
     module ``Date Module`` = 
 
+        [<Trait (TraitNames.Module, ModuleNames.DateTime)>]
         module ``WeekdaysInMonth month`` = 
 
             let [<Fact>] ``Returns the correct list of dates`` () =  
@@ -33,6 +36,7 @@
 
     module ``DateTime Extensions`` = 
 
+        [<Trait (TraitNames.Module, ModuleNames.DateTime)>]
         module ``Next method`` =
 
             let [<Fact>] ``Returns the correct date when the next occurrence of the reqested day is in current week`` () =
@@ -41,6 +45,7 @@
             let [<Fact>] ``Returns the correct date when next occurrence of the requested day is in next week`` () =
                 datetime.Next (DayOfWeek.Tuesday) |> should equal (DateTime (2013, 4, 23, 13, 50, 0))
 
+        [<Trait (TraitNames.Module, ModuleNames.DateTime)>]
         module ``Previous method`` =
 
             let [<Fact>] ``Returns the correct date when the previous occurrence of the requested day is in the current week`` () =
@@ -49,6 +54,7 @@
             let [<Fact>] ``Returns the correct date when the previous occurrence of the requested day is in the previous week`` () =
                 datetime.Previous (DayOfWeek.Friday) |> should equal (DateTime (2013, 4, 12, 13, 50, 0))
 
+        [<Trait (TraitNames.Module, ModuleNames.DateTime)>]
         module ``StartOfWeek method`` =
 
             let monday = 
@@ -60,11 +66,13 @@
             let [<Fact>] ``Returns the correct date then when date is not a Monday`` () =
                 datetime.StartOfWeek () |> should equal monday
 
+        [<Trait (TraitNames.Module, ModuleNames.DateTime)>]
         module ``StartOfMonth method`` =
 
             let [<Fact>] ``Returns the first of the month at the same time`` () =
                 datetime.StartOfMonth () |> should equal (DateTime (2013, 4, 1, 13, 50, 0))
 
+        [<Trait (TraitNames.Module, ModuleNames.DateTime)>]
         module ``EndOfMonth method`` =
 
             let [<Fact>] ``Returns the last day of the month at the same time`` () =

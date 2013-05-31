@@ -5,6 +5,7 @@
     open Xunit
     open HandyFS.Null
 
+    [<Trait (TraitNames.Module, ModuleNames.Null)>]
     module ``asOption function`` =
 
         let [<Fact>] ``Returns None when value is null`` () =
@@ -19,6 +20,7 @@
             in
                 value |> asOption |> should equal (Some 10)
 
+    [<Trait (TraitNames.Module, ModuleNames.Null)>]
     module ``asDefault function`` =
 
         let [<Fact>] ``Returns the type default when value is None`` () =

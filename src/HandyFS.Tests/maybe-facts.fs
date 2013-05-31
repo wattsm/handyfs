@@ -5,6 +5,7 @@
     open Xunit
     open HandyFS.Maybe
 
+    [<Trait (TraitNames.Module, ModuleNames.Maybe)>]
     module ``bind function`` =
 
         let dummy (num : Int32) = 
@@ -16,6 +17,7 @@
         let [<Fact>] ``Function is not called when value is None`` () =
             bind (Some 2) dummy |> Option.get |> should equal 4
 
+    [<Trait (TraitNames.Module, ModuleNames.Maybe)>]
     module ``Monad laws`` =
 
         let assertEquality (f : Int32 -> Int32 option) (g : Int32 -> Int32 option) = 

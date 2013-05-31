@@ -2,11 +2,12 @@
 
     open FsUnit.Xunit
     open Xunit
-
+    
     module ``List module`` =
 
         let list = [ 1; 2; 3; 4; 5; ]
 
+        [<Trait (TraitNames.Module, ModuleNames.Collections)>]
         module ``contains function`` =
 
             let [<Fact>] ``Returns true if item is present in list`` () =
@@ -15,6 +16,7 @@
             let [<Fact>] ``Returns false if item is not present in list`` () =
                 list |> List.contains 7 |> should be False
     
+        [<Trait (TraitNames.Module, ModuleNames.Collections)>]
         module ``same function`` =
 
             let [<Fact>] ``Returns true if lists are identical`` () =
@@ -29,6 +31,7 @@
             let [<Fact>] ``Returns false if lists contain different items`` () =
                 list |> List.same [ 6; 7; 8; 9; 10; 11; ] |> should be False
 
+        [<Trait (TraitNames.Module, ModuleNames.Collections)>]
         module ``intersect function`` =
 
             let [<Fact>] ``Returns a list containing items that the two lists have in common`` () =
@@ -37,6 +40,7 @@
             let [<Fact>] ``Returns the empty list if lists have no items in common`` () =
                 list |>  List.intersect [ 8; 9; ] |> List.isEmpty |> should be True
 
+        [<Trait (TraitNames.Module, ModuleNames.Collections)>]
         module ``toNvc function`` =
 
             let [<Fact>] ``Returns collection containing correct items`` () =
@@ -56,11 +60,12 @@
                     |> List.toNvc
 
                 Assert.Equal (0, nvc.Count)
-
+    
     module ``Enumerable module`` =        
 
         open System.Collections
 
+        [<Trait (TraitNames.Module, ModuleNames.Collections)>]
         module ``toList function`` = 
     
             let collection = 
@@ -77,11 +82,12 @@
 
             let [<Fact>] ``Returns an empty list if the collection contains no items`` () =
                 ArrayList () |> Enumerable.toList<int> |> List.isEmpty |> should be True
-
+    
     module ``NameValueCollection module`` = 
 
         open System.Collections.Specialized
 
+        [<Trait (TraitNames.Module, ModuleNames.Collections)>]
         module ``toList function`` =
 
             let collection = 

@@ -3,6 +3,7 @@
     open FsUnit.Xunit
     open Xunit
 
+    [<Trait (TraitNames.Module, ModuleNames.String)>]
     module ``Same function`` =
 
         let [<Fact>] ``Returns true if strings are identical`` () =
