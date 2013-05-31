@@ -18,11 +18,12 @@
 
     ///Gets the current value of the state                    
     let getState () =
-        snd
+        fun state ->
+            (state, state)
 
     ///Sets a new state value
     let setState state = 
-        fun _ _ ->
+        fun _ ->
             ((), state)
 
     ///Workflow builder for the state monad
