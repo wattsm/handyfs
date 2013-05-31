@@ -34,7 +34,27 @@
         member this.Return expr = 
             Monad.return' expr
 
+    ///Workflow builder for use with asynchronous functions
+    type AsyncStateBuilder () =
+
+        member this.Bind (expr, rest) = 
+            async {
+                return 
+                    Monad.bind
+                    <| (fun state -> expr state |> Async.RunSynchronously)
+                    <| (fun value state -> rest value state |> Async.RunSynchronously)
+            }
+
+        member this.Return expr = 
+            async {
+                return (Monad.return' expr)
+            }
+
     ///Syntactic sugar function for the state workflow
     let state = 
         StateBuilder ()
+
+    ///Syntactic sugar function for the async state workflow
+    let asyncState = 
+        AsyncStateBuilder ()
             

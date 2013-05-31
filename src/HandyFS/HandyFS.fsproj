@@ -50,6 +50,7 @@
     <Compile Include="null.fs" />
     <Compile Include="maybe.fs" />
     <Compile Include="state.fs" />
+    <Compile Include="context.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
