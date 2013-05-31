@@ -12,10 +12,10 @@
             Some (num * 2)
 
         let [<Fact>] ``Function is called when value is not None`` () =
-            bind None dummy |> Option.isNone |> should be True
+            bind (Some 2) dummy |> Option.get |> should equal 4
 
         let [<Fact>] ``Function is not called when value is None`` () =
-            bind (Some 2) dummy |> Option.get |> should equal 4
+            bind None dummy |> Option.isNone |> should be True            
 
     [<Trait (TraitNames.Module, ModuleNames.Maybe)>]
     module ``Monad laws`` =
