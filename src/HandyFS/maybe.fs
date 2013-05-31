@@ -9,29 +9,54 @@
 
         let connect : unit -> Connection option
         let getCommand : String -> Connection -> Command option
-        let execute : Command -> Result option
+        let execute : Command -> Result
+        let execute' : Command -> Result option
 
         Using workflow:
 
-            // String -> Result option
-            let execSql sql = 
-                maybe {
+            Using execute: 
 
-                    let! connection = connect ()
-                    let! command = getCommand sql connection 
+                // String -> Result option
+                let execSql sql = 
+                    maybe {
 
-                    return (execute command)
-                }
+                        let! connection = connect ()
+                        let! command = getCommand sql connection 
+
+                        return (execute command)
+                    }
+
+            Or using execute':
+
+                // String -> Result option
+                let execSql sql = 
+                    maybe {
+
+                        let! connection = connect ()
+                        let! command = getCommand sql connection
+
+                        return! (execute' command)
+                    }
 
         Using monad functions:
 
-            // String -> Result option
-            let execSql sql = 
-                return ()
-                --> connect
-                --> getCommand sql
-                --> (execute >> return')
+            Using execute:
 
+                // String -> Result option
+                let execSql sql = 
+                    return ()
+                    --> connect
+                    --> getCommand sql
+                    --> (execute >> return')
+
+            Or using execute':
+
+                // String -> Result option
+                let execSql sql = 
+                    return () 
+                    --> connect
+                    --> getCommand sql
+                    --> execute'
 **)
 
 module HandyFS.Maybe
@@ -60,6 +85,9 @@ module HandyFS.Maybe
 
         member this.Return x = 
             Monad.return' x
+
+        member this.ReturnFrom expr = 
+            expr
 
     ///Workflow sugar for the maybe monad
     let maybe = 
