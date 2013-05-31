@@ -3,7 +3,7 @@
     open System
     open FsUnit.Xunit
     open Xunit
-    open HandyFS.Maybe
+    open HandyFS.Maybe.Monad
 
     [<Trait (TraitNames.Module, ModuleNames.Maybe)>]
     module ``bind function`` =
@@ -34,21 +34,21 @@
 
         let [<Fact>] ``return a >>= f = f a`` () =
 
-            let f n = return' n -?-> incrementEven
+            let f n = return' n --> incrementEven
             let g = incrementEven
 
             assertEquality f g
 
         let [<Fact>] ``f >>= return = f`` () = 
 
-            let f n = incrementEven n -?-> return'
+            let f n = incrementEven n --> return'
             let g = incrementEven
 
             assertEquality f g
 
         let [<Fact>] ``f >>= (fun x -> g x >>= h) = (f >>= g) >>= h)`` () = 
 
-            let f n = incrementEven n -?-> (fun n' -> incrementOdd n' -?-> doubleEven)
-            let g n = incrementEven n -?-> incrementOdd -?-> doubleEven
+            let f n = incrementEven n --> (fun n' -> incrementOdd n' --> doubleEven)
+            let g n = incrementEven n --> incrementOdd --> doubleEven
 
             assertEquality f g
