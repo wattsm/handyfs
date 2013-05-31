@@ -31,25 +31,24 @@
         let incrementEven n = if (isEven n) then Some (n + 1) else None
         let incrementOdd n = if not (isEven n) then Some (n + 1) else None
         let doubleEven n = if (isEven n) then Some (n * 2) else None
-        let (-->) f g = bind f g
 
         let [<Fact>] ``return a >>= f = f a`` () =
 
-            let f n = return' n --> incrementEven
+            let f n = return' n -?-> incrementEven
             let g = incrementEven
 
             assertEquality f g
 
         let [<Fact>] ``f >>= return = f`` () = 
 
-            let f n = incrementEven n --> return'
+            let f n = incrementEven n -?-> return'
             let g = incrementEven
 
             assertEquality f g
 
         let [<Fact>] ``f >>= (fun x -> g x >>= h) = (f >>= g) >>= h)`` () = 
 
-            let f n = incrementEven n --> (fun n' -> incrementOdd n' --> doubleEven)
-            let g n = incrementEven n --> incrementOdd --> doubleEven
+            let f n = incrementEven n -?-> (fun n' -> incrementOdd n' -?-> doubleEven)
+            let g n = incrementEven n -?-> incrementOdd -?-> doubleEven
 
             assertEquality f g

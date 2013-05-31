@@ -6,6 +6,10 @@
         | Some x -> f x
         | None -> None
 
+    ///Infix operator for bind function
+    let (-?->) = 
+        bind
+
     ///Lifts a value to the default form for the maybe monad
     let return' x = 
         Some x
