@@ -1,4 +1,52 @@
-﻿module HandyFS.Context
+﻿(**
+    Context monad
+
+    Chains functions together, threading a context through them. The first function accepts just the context, with subsequent
+    functions accepting the result of the previous function and the context.
+
+    Example:
+
+        let settings = [ ("greeting", "Hello, {0}"); ]
+
+        Using workflow:
+
+            let sayHello (name : String) =
+                context {
+
+                    let! settings = getContext ()
+
+                    let greeting = 
+                        settings 
+                        |> List.pick (fun (key, value) -> 
+                                match key with
+                                | "greeting" -> Some value
+                                | _ -> None
+                            )
+
+                    return String.Format (greeting, name)
+                }
+
+        Using monad functions:
+
+            let sayHello name =
+
+                let getGreeting (name : String) (settings : (String * String) list) = 
+                    
+                    let greeting = 
+                        settings
+                        |> List.pick (fun (key, value) ->
+                                match key with
+                                | "greeting" -> Some value
+                                | _ -> None
+                            )
+
+                    String.Format (greeting, name)
+
+                return' name
+                --> getGreeting
+**)
+
+module HandyFS.Context
 
     module Monad = 
 
