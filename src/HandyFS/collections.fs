@@ -4,6 +4,7 @@ module Collections
 
     open System
     open System.Collections
+    open System.Collections.Generic
     open System.Collections.Specialized
 
     ///Contains extensions to the standard List module
@@ -52,6 +53,10 @@ module Collections
             populate 
             <| (NameValueCollection ()) 
             <| list
+
+        ///Converts a list of key/value pairs to a mutable dictionary. F#' dict function creates a read-only dictionary.
+        let toDictionary<'k, 'v when 'k : equality> (list : ('k * 'v) list) = 
+            Dictionary<'k, 'v> (dict list)
 
     ///Functions for working with IEnumerable and enumerators
     [<RequireQualifiedAccess>]

@@ -60,6 +60,29 @@
                     |> List.toNvc
 
                 Assert.Equal (0, nvc.Count)
+
+        [<Trait (TraitNames.Module, ModuleNames.Collections)>]
+        module ``toDictionary function`` = 
+
+            let [<Fact>] ``Returns a dictionary containing the items in the list`` () = 
+                
+                let list = [ ("one", 1); ("two", 2); ("three", 3); ]
+                let dict' = List.toDictionary list
+
+                Assert.Equal (3, dict'.Count)
+                Assert.Equal (1, dict'.["one"])
+                Assert.Equal (2, dict'.["two"])
+                Assert.Equal (3, dict'.["three"])
+
+            let [<Fact>] ``Returns a mutable dictionary`` () =
+
+                let list = [ ("one", 1); ]
+                let dict' = List.toDictionary list
+
+                Assert.DoesNotThrow (fun () ->
+                    dict'.Add ("two", 2)
+                )
+
     
     module ``Enumerable module`` =        
 
