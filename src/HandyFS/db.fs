@@ -136,7 +136,7 @@ module HandyFS.DB
         | Sql of String
 
     ///Computational workflow wrapping a DB connection and command
-    type CommandWorkflow (connection : DbConnection, disposable, settings) = 
+    type CommandWorkflow (connection : DbConnection, closeable, settings) = 
 
         let command = 
 
@@ -150,31 +150,43 @@ module HandyFS.DB
             |> setType commandType
             |> setText commandText
 
-        let dispose () =
-            command.Dispose ()
-
-            if disposable then
+        let closeConnection () =
+            if closeable then
                 if connection.State <> ConnectionState.Closed then
                     connection.Close ()
+                    connection.Dispose ()
 
-                connection.Dispose ()
+        let dispose () = 
+            command.Dispose ()
+            closeConnection ()
 
         member this.Bind (x, f) = 
             f (x command)
 
         member this.Return x = 
-            x   
+            x
 
-        member this.ReturnFrom x = 
-            x command
-        
-        override this.Finalize () =
+        member this.ReturnFrom f = 
+            f command
+
+        member this.Delay f = 
+            f
+
+        member this.Run f = 
+
+            let result = f ()
+
+            closeConnection ()
+
+            result
+
+        override this.Finalize () = 
             dispose ()
 
         interface IDisposable with
-
-            member this.Dispose () =
-                dispose ()
+            
+            member this.Dispose () = 
+                dispose () 
                 GC.SuppressFinalize (this)
 
     ///Creates a command workflow for a stored procedure
@@ -232,9 +244,3 @@ module HandyFS.DB
                 }
 
             List.ofSeq data //Forces evaluation of sequence
-
-    ///Manually closes the underlying command and connection, rather than relying on dispose / finaliser
-    let close () = 
-        fun (cmd : DbCommand) ->
-            if cmd.Connection.State <> ConnectionState.Closed then
-                cmd.Connection.Close ()
