@@ -154,7 +154,9 @@ module HandyFS.DB
             command.Dispose ()
 
             if disposable then
-                connection.Close ()
+                if connection.State <> ConnectionState.Closed then
+                    connection.Close ()
+
                 connection.Dispose ()
 
         member this.Bind (x, f) = 
@@ -230,3 +232,9 @@ module HandyFS.DB
                 }
 
             List.ofSeq data //Forces evaluation of sequence
+
+    ///Manually closes the underlying command and connection, rather than relying on dispose / finaliser
+    let close () = 
+        fun (cmd : DbCommand) ->
+            if cmd.Connection.State <> ConnectionState.Closed then
+                cmd.Connection.Close ()
