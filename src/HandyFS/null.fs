@@ -15,4 +15,10 @@ module HandyFS.Null
         match value with
         | None -> Unchecked.defaultof<'a>
         | Some value' -> value'
+
+    ///Returns a some value or a default for none
+    let someOr default' value = 
+        match value with
+        | None -> default'
+        | Some value' -> value'
         
