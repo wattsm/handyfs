@@ -14,4 +14,6 @@ module Constants
         let [<Literal>] Maybe = "Maybe"
         let [<Literal>] State = "State"
         let [<Literal>] Context = "Context"
+        let [<Literal>] Option = "Option"
+        let [<Literal>] Types = "Types"
 

@@ -48,6 +48,8 @@
     <Compile Include="datetime.fs" />
     <Compile Include="db.fs" />
     <Compile Include="null.fs" />
+    <Compile Include="option.fs" />
+    <Compile Include="types.fs" />
     <Compile Include="maybe.fs" />
     <Compile Include="state.fs" />
     <Compile Include="context.fs" />

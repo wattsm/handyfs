@@ -45,6 +45,8 @@
     <Compile Include="collections-facts.fs" />
     <Compile Include="datetime-facts.fs" />
     <Compile Include="null-facts.fs" />
+    <Compile Include="option-facts.fs" />
+    <Compile Include="type-facts.fs" />
     <Compile Include="maybe-facts.fs" />
     <Compile Include="state-facts.fs" />
     <Compile Include="context-facts.fs" />
