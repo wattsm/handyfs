@@ -41,10 +41,7 @@
             Definite
 
     ///Create a generic type with the given type arguments
-    let makeGenericType<'a> (types : Type list) = 
-        
-        let baseType = 
-            typeof<'a>
+    let makeGenericType (baseType : Type) (types : Type list) = 
 
         if (not baseType.IsGenericTypeDefinition) then
             invalidOp "The type specified was not a generic type definition."
