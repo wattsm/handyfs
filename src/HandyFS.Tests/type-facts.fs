@@ -71,6 +71,15 @@
 
         let [<Fact>] ``Returns Definite when the type is not an option`` () =
             typeof<string> |> getTypeGroup |> should equal Definite
+
+    [<Trait (TraitNames.Module, ModuleNames.Types)>]
+    module ``makeGenericType function`` =
+
+        let [<Fact>] ``Creates correct generic type`` = 
+            makeGenericType<Option<_>> [ typeof<String>; ] |> should equal typeof<Option<String>>
+
+        let [<Fact>] ``Raises an InvalidOperationException if the type specified is not a generic type definition`` =
+            (fun () -> makeGenericType<String> [] |> ignore) |> should throw typeof<InvalidOperationException>
             
             
             
