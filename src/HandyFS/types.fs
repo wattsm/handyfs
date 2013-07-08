@@ -21,4 +21,24 @@
     let isUnit : Type -> bool =
         isType<unit>
 
+    ///Union used to describe groups that types can generally be assigned to
+    type TypeGroup = 
+        | Unit'
+        | Optional of Type
+        | Definite
+
+    ///Gets the group to which a type belongs
+    let getTypeGroup t = 
+        if (isUnit t) then
+            Unit'
+        else if (isOptional t) then
+            
+            t.GetGenericArguments ()
+            |> Array.head
+            |> Optional
+
+        else
+            Definite
+            
+
 
