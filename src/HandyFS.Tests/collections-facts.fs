@@ -83,6 +83,19 @@
                     dict'.Add ("two", 2)
                 )
 
+
+    module ``Array mdoule`` = 
+
+        open System
+
+        [<Trait (TraitNames.Module, ModuleNames.Collections)>]
+        module ``head function`` = 
+
+            let [<Fact>] ``Returns the first item in the array when it is not empty`` () =
+                [| 1; 2; 3 |] |> Array.head |> should equal 1
+
+            let [<Fact>] ``Raises InvalidOperationException when the array is empty`` () =
+                (fun () -> [||] |> Array.head |> ignore) |> should throw typeof<InvalidOperationException>
     
     module ``Enumerable module`` =        
 

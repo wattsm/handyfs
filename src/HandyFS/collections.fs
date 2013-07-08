@@ -58,6 +58,16 @@ module Collections
         let toDictionary<'k, 'v when 'k : equality> (list : ('k * 'v) list) = 
             Dictionary<'k, 'v> (dict list)
 
+    [<RequireQualifiedAccess>]
+    module Array =
+
+        ///Gets the item at the head of the array
+        let head array = 
+            if (Array.isEmpty array) then
+                raise (InvalidOperationException ())
+            else
+                Array.get array 0
+
     ///Functions for working with IEnumerable and enumerators
     [<RequireQualifiedAccess>]
     module Enumerable = 
