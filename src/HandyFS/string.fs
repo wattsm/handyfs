@@ -12,6 +12,10 @@ module String
     let upper (str : string) = 
         str.ToUpper ()
 
+    ///Trims whitespace from a string
+    let trim (str : string) = 
+        str.Trim ()
+
     ///True if the two strings are the same, ignoring case
     let same (str1 : string) (str2 : string) = 
         (String.Compare (str1, str2, true) = 0)
