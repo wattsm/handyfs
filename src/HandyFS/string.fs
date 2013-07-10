@@ -21,7 +21,7 @@ module String
         (String.Compare (str1, str2, true) = 0)
 
     ///Splits a string on a given delimiter, removing empty entries
-    let split (str : string) (delimiter : string) = 
+    let split (delimiter : string) (str : string)  = 
         if (String.IsNullOrWhiteSpace str) then
             []
         else
