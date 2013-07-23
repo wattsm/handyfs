@@ -16,4 +16,7 @@ module Constants
         let [<Literal>] Context = "Context"
         let [<Literal>] Option = "Option"
         let [<Literal>] Types = "Types"
+        let [<Literal>] TypesData = "Types.Data"
+        let [<Literal>] TypesSummaries = "Types.Summaries"
+        let [<Literal>] TypesConstructor = "Types.Constructor"
 
