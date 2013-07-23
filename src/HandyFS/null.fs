@@ -3,17 +3,17 @@ module HandyFS.Null
 
     open System
 
-    ///Converts a nullable value to an option
-    let asOption (value : Nullable<_>) = 
+    ///Converts a potentially null value to an option
+    let asOption value = 
+        match value with
+        | null -> None
+        | _ -> Some value    
+
+    ///Converts a Nullable<T> value to an option
+    let asOption2 (value : Nullable<_>) = 
         if value.HasValue then
             Some value.Value
         else    
             None
 
-    ///Converts an option to a definite value, using the type's default when the value is None
-    let asDefault<'a> (value : 'a option) = 
-        match value with
-        | None -> Unchecked.defaultof<'a>
-        | Some value' -> value'
-
-   
+    

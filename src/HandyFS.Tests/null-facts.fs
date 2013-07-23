@@ -6,33 +6,31 @@
     open HandyFS.Null
 
     [<Trait (TraitNames.Module, ModuleNames.Null)>]
-    module ``asOption function`` =
+    module ``asOption2 function`` =
 
         let [<Fact>] ``Returns None when value is null`` () =
             let 
                 value = Nullable<int> ()
             in
-                value |> asOption |> ((=) None) |> should be True
+                value |> asOption2 |> Option.isNone |> should be True
         
         let [<Fact>] ``Returns Some when value is not null`` () =
             let
                 value = Nullable (10)
             in
-                value |> asOption |> should equal (Some 10)
+                value |> asOption2 |> should equal (Some 10)
 
     [<Trait (TraitNames.Module, ModuleNames.Null)>]
-    module ``asDefault function`` =
+    module ``asOption function`` = 
 
-        let [<Fact>] ``Returns the type default when value is None`` () =
-            let
-                value : int option = None
+        let [<Fact>] ``Returns None when the value is null`` () =
+            let 
+                value : obj = null
             in
-                value |> asDefault |> should equal 0
+                value |> asOption |> Option.isNone |> should be True
 
-        let [<Fact>] ``Returns the wrapped value when the value is Some`` () =
-            let
-                value = Some 10
+        let [<Fact>] ``Returns Some when value is not null`` () =
+            let 
+                value = new Object ()
             in
-                value |> asDefault |> should equal 10
-
-    
+                value |> asOption |> should equal (Some value)
