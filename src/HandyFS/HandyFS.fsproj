@@ -49,6 +49,7 @@
     <Compile Include="db.fs" />
     <Compile Include="null.fs" />
     <Compile Include="option.fs" />
+    <Compile Include="data.fs" />
     <Compile Include="types.fs" />
     <Compile Include="maybe.fs" />
     <Compile Include="state.fs" />
