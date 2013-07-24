@@ -194,7 +194,19 @@
                 |> Array.toList
 
             let suitability =  
-                ((double (List.length arguments)) / (double (Array.length parameters))) * (double 100)
+
+                let paramCount = 
+                    parameters
+                    |> Array.length
+                    |> double
+
+                let argCount = 
+                    arguments'
+                    |> List.filter (snd >> Option.isSome)
+                    |> List.length
+                    |> double
+
+                (argCount / paramCount) * (double 100)
 
             {
                 Constructor = constructorInfo;
