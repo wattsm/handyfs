@@ -27,7 +27,7 @@
     let makeGenericType (baseType : Type) (types : Type list) = 
 
         if (not baseType.IsGenericTypeDefinition) then
-            invalidOp "The type specified was not a generic type definition."
+            invalidArg "baseType" "The type specified was not a generic type definition."
 
         baseType.MakeGenericType (
             types

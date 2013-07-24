@@ -54,8 +54,8 @@
         let [<Fact>] ``Creates correct generic type`` () = 
             makeGenericType typedefof<Option<_>> [ typeof<String>; ] |> should equal typeof<Option<String>>
 
-        let [<Fact>] ``Raises an InvalidOperationException if the type specified is not a generic type definition`` () =
-            (fun () -> makeGenericType typeof<String> [] |> ignore) |> should throw typeof<InvalidOperationException>         
+        let [<Fact>] ``Raises an ArgumentException if the type specified is not a generic type definition`` () =
+            (fun () -> makeGenericType typeof<String> [] |> ignore) |> should throw typeof<ArgumentException>         
 
     [<Trait (TraitNames.Module, ModuleNames.Types)>]
     module ``makeListOf function`` = 
