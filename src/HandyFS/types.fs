@@ -73,14 +73,14 @@
             fun item list ->
                 cons.Invoke (null, [| item; list; |])                
 
-        let instance = 
+        let list = 
 
             let empty = 
                 listType.GetProperty ("Empty")
 
             empty.GetValue (null)
 
-        instance
+        list
         |> List.foldBack add items
 
     ///True if a type is an F# list
@@ -95,20 +95,22 @@
             <| typedefof<List<_>>
             <| [ itemType; ]
 
+        let sequence = 
+            Activator.CreateInstance seqType
+
         let add = 
 
             let addMethod = 
                 seqType.GetMethod ("Add")           
             
-            fun seq item ->
-                addMethod.Invoke (seq, [| item; |]) |> ignore
-                seq
-                
-        let instance = 
-            Activator.CreateInstance seqType
+            fun item ->
+                addMethod.Invoke (sequence, [| item; |]) 
+                |> ignore
 
         items
-        |> List.fold add instance            
+        |> List.iter add
+
+        sequence
 
     ///True if a type is an F# sequence (IEnumerable<T>)
     let isSeq = 
