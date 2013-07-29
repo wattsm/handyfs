@@ -8,6 +8,11 @@
     let isType<'a> = 
         ((=) typedefof<'a>)
 
+    ///True if a concrete type implements a given interface
+    let implements interfaceType (concreteType : Type) = 
+        concreteType.GetInterfaces ()
+        |> Array.exists ((=) interfaceType)
+
     ///True if a type is the specified generic type
     let isGenericType<'a> (t : Type) = 
         if t.IsGenericType then

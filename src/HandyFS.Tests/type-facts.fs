@@ -21,6 +21,31 @@
             typeof<Int32> |> isType<String> |> should be False
 
     [<Trait (TraitNames.Module, ModuleNames.Types)>]
+    module ``implements function`` =
+
+        open System.Collections.Generic
+        
+        type DummyInterface = 
+            abstract member NoOp : unit -> unit
+
+        type DummyType () = 
+            interface DummyInterface with
+                member this.NoOp () = ()
+
+        type DummyInheritedType () = 
+            inherit DummyType ()
+
+        let [<Fact>] ``Returns true when interface is implemented`` () =
+            implements typeof<DummyInterface> typeof<DummyType> |> should be True
+
+        let [<Fact>] ``Returns false when interface is not implemented`` () =
+            implements typeof<IList<String>> typeof<DummyType> |> should be False
+
+        let [<Fact>] ``Returns true when interface is implemented by base types`` () =
+            implements typeof<DummyInterface> typeof<DummyInheritedType> |> should be True
+
+
+    [<Trait (TraitNames.Module, ModuleNames.Types)>]
     module ``isGenericType function`` =
 
         let [<Fact>] ``Returns true when the types match`` () =
