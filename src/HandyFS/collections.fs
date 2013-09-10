@@ -72,16 +72,11 @@ module Collections
     [<RequireQualifiedAccess>]
     module Enumerable = 
 
+        open System.Linq
+
         ///Converts an IEnumerable to a sequence
         let toSeq<'a> (enumerable : IEnumerable) =
-
-            let collect (enumerator : IEnumerator) = 
-                seq {
-                    while enumerator.MoveNext () do
-                      yield enumerator.Current :?> 'a  
-                }
-
-            collect (enumerable.GetEnumerator ())
+            enumerable.Cast<'a> ()
 
         ///Converts an IEnumerable to a list
         let toList<'a> = 
