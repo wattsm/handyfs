@@ -43,6 +43,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="assembly-info.fs" />
     <Compile Include="string.fs" />
     <Compile Include="collections.fs" />
     <Compile Include="datetime.fs" />
