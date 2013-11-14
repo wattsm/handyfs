@@ -51,6 +51,7 @@
     <Compile Include="maybe-facts.fs" />
     <Compile Include="state-facts.fs" />
     <Compile Include="context-facts.fs" />
+    <Compile Include="either-facts.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FsUnit.CustomMatchers">

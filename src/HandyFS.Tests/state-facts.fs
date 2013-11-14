@@ -54,7 +54,8 @@
             
             let f = incState 10 --> return'
             let g = incState 10
-
+            let gg = Choice1Of2 1
+            
             assertEquality f g
 
         let [<Fact>] ``f >>= (fun x -> g x >>= h) = (f >>= g) >>= h`` () =
