@@ -70,24 +70,20 @@ module HandyFS.Either
         | Left e' -> a e'
         | Right e' -> b e'
 
-    let rec lefts lst = 
-        match lst with 
-        | [] -> []
-        | x :: xs -> 
-            match x with 
-            | Left x' -> x' :: lefts xs
-            | _ -> lefts xs
+    let lefts eithers = 
+        List.choose (function
+            | Left x -> Some x
+            | _ -> None
+        ) eithers
 
-    let rec rights lst = 
-        match lst with
-        | [] -> []
-        | x :: xs -> 
-            match x with
-            | Right x' -> x' :: rights xs
-            | _ -> rights xs
+    let rights eithers = 
+        List.choose (function
+            | Right x -> Some x
+            | _ -> None
+        ) eithers
 
     let partitionEithers lst = (lefts lst, rights lst) 
-        
+
     module Monad = 
         
         let return' value = Right value
